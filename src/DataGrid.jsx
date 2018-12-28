@@ -40,6 +40,10 @@ class DataGrid extends Component {
       width: f.width || 150,
       field: f.path,
       cellStyle,
+      headerCheckboxSelection: f.headerCheckboxSelection,
+      headerCheckboxSelectionFilteredOnly: f.headerCheckboxSelectionFilteredOnly,
+      checkboxSelection: f.checkboxSelection,
+      pinned: f.pinned,
     }));
 
     return (

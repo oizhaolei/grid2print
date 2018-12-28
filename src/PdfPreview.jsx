@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import pdfMakeTable from './PdfMakeTable';
 
 class PdfPreview extends Component {
+  componentDidUpdate(prevProps) {
+    if (this.props.rows !== prevProps.rows) {
+      const doc = pdfMakeTable(this.props.rows);
+
+      doc.getDataUrl(url => this.iframe.setAttribute('src', url), doc);
+    }
+  }
 
   render() {
     const {
@@ -10,16 +18,20 @@ class PdfPreview extends Component {
     } = this.props;
 
     return (
-      <div>
-        {
-          rows.map(v => (
-            <div
-              key={v.key}
-            >
-              {v.key}
-            </div>
-          ))
-        }
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+        }}
+      >
+        <iframe
+          ref={ref => (this.iframe = ref)}
+          src="/sample.pdf"
+          style={{
+            width: '100%',
+            height: '100%',
+          }}
+        ></iframe>
       </div>
     );
   }
