@@ -1,38 +1,35 @@
 import pdfMake from 'pdfmake/build/pdfmake';
 import vfsFonts from 'pdfmake/build/vfs_fonts';
-import { data } from './FakeData';
 
-const _format = data => data.map(item => ([
-  { text: item.key },
-  { text: item.fields.issuetype.name },
-  { text: item.fields.summary },
-  { text: item.fields.project },
-  { text: item.fields.status.name },
-]));
+const render = data => data.map(item => ({
+  table: {
+    widths: [200, 'auto'],
+    headerRows: 2,
+    // keepWithHeaderRows: 1,
+    body: [
+      [{
+        text: item.summary,
+        style: 'tableHeader',
+        alignment: 'center',
+      }, {
+        text: 'Header 3',
+        style: 'tableHeader',
+      }],
+    ],
+  },
+  pageBreak: 'before',
+}));
 
 export default (rows) => {
   const { vfs } = vfsFonts.pdfMake;
   pdfMake.vfs = vfs;
 
-  const formattedData = _format(rows);
+  const formattedData = render(rows);
 
   const documentDefinition = {
-    pageSize: 'A4',
     pageOrientation: 'landscape',
-    content: [
-      { text: 'React + pdfmake example' },
-      '\n',
-      {
-        table: {
-	  headerRows: 1,
-	  dontBreakRows: true,
-	  body: [
-	    [{ text: 'Name', style: 'tableHeader' }, { text: 'Username', style: 'tableHeader' }, { text: 'Email', style: 'tableHeader' }, { text: 'Phone', style: 'tableHeader' }, { text: 'Website', style: 'tableHeader' }],
-	    ...formattedData,
-	  ],
-        },
-      },
-    ],
+    pageSize: 'A5',
+    content: formattedData,
   };
 
   return pdfMake.createPdf(documentDefinition);

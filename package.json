@@ -35,6 +35,7 @@
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.8.2",
+    "esm": "^3.0.84",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
     "puppeteer": "^1.6.0",

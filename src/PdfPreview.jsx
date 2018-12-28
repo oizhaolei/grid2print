@@ -26,7 +26,6 @@ class PdfPreview extends Component {
       >
         <iframe
           ref={ref => (this.iframe = ref)}
-          src="/sample.pdf"
           style={{
             width: '100%',
             height: '100%',
