@@ -3,16 +3,26 @@ import vfsFonts from 'pdfmake/build/vfs_fonts';
 
 const render = data => data.map(item => ({
   table: {
-    widths: [200, 'auto'],
+    widths: [
+      90,
+      150,
+      150,
+      200,
+    ],
     headerRows: 2,
     // keepWithHeaderRows: 1,
     body: [
       [{
-        text: item.summary,
+        text: item.rowid,
         style: 'tableHeader',
-        alignment: 'center',
       }, {
-        text: 'Header 3',
+        text: item.key,
+        style: 'tableHeader',
+      }, {
+        text: item.issuetype,
+        style: 'tableHeader',
+      }, {
+        text: item.summary,
         style: 'tableHeader',
       }],
     ],

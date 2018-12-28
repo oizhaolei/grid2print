@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import SplitPane from 'react-split-pane';
 
+import Header from './Header';
 import DataGrid from './DataGrid';
 import PdfPreview from './PdfPreview';
 import {
@@ -23,7 +24,9 @@ class Routes extends Component {
         defaultSize={50}
         allowResize={false}
       >
-        <div>header buttons</div>
+        <Header
+          rows={this.props.rows}
+        />
         <SplitPane
           defaultSize="50%"
           allowResize

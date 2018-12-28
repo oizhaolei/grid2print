@@ -1,26 +1,25 @@
 export const standardFields = [{
-  key: 'issuetype',
-  headerName: 'Type',
-  tree: true,
-  table: true,
-  path: 'name',
-  width: 120,
+  key: 'rowid',
+  headerName: 'Rowid',
+  path: 'rowid',
+  width: 90,
   headerCheckboxSelection: true,
   headerCheckboxSelectionFilteredOnly: true,
   checkboxSelection: true,
 }, {
+  key: 'issuetype',
+  headerName: 'Type',
+  path: 'issuetype',
+  width: 150,
+}, {
   key: 'issuekey',
   headerName: 'Key',
-  tree: false,
-  table: true,
   path: 'key',
-  width: 120,
+  width: 180,
 }, {
   key: 'summary',
   headerName: 'Summary',
-  tree: false,
-  table: true,
   path: 'summary',
-  width: 250,
+  width: 350,
 }];
 
