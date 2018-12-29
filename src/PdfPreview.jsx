@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PdfJsLib from 'pdfjs-dist';
+
+import { Viewer } from './components/Viewer';
 
 import makePdfData from './MakePdfData';
 
-const page = 1;
+
 const cMapUrl = '../node_modules/pdfjs-dist/cmaps/';
 const cMapPacked = false;
 
 class PdfPreview extends Component {
   state = {
     pdf: null,
+    scale: 1.2
   };
 
   componentDidMount() {
@@ -24,54 +26,33 @@ class PdfPreview extends Component {
     if (this.props.rows !== newProps.rows) {
       makePdfData(newProps.rows).getBuffer(data => {
         PdfJsLib.getDocument({ data, cMapUrl, cMapPacked }).then((pdf) => {
-        console.log('pdf loaded');
-          this.setState({ pdf });
-          // if (onDocumentComplete) {
-          //   onDocumentComplete(pdf._pdfInfo.numPages); // eslint-disable-line
-          // }
-          pdf.getPage(page).then(p => this.drawPDF(p));
-        });
+          this.setState({
+            pdf,
+          }, () => {
+            window.emitter.emit('EVENT_REFRESH_PDF');
+          });
+        }).catch(e => console.log(e));
       });
     }
-    // const { page = 1, scale = 1 } = this.props;
-    // const { pdf } = this.state;
-    // if (newProps.page !== page) {
-    //   pdf.getPage(newProps.page).then(p => this.drawPDF(p));
-    // }
-    // if (newProps.scale !== scale) {
-    //   pdf.getPage(newProps.page).then(p => this.drawPDF(p));
-    // }
-  }
-
-   drawPDF = (page) => {
-    const { scale = 1 } = this.props;
-    const viewport = page.getViewport(scale);
-    const { canvas } = this;
-    const canvasContext = canvas.getContext('2d');
-    canvas.height = viewport.height;
-    canvas.width = viewport.width;
-    const renderContext = {
-      canvasContext,
-      viewport,
-    };
-    page.render(renderContext);
   }
 
   render() {
+    const { pdf, scale } = this.state;
     return (
-      <canvas
-        ref={(canvas) => { this.canvas = canvas; }}
-        style={{
-          width: '100%',
-          height: '100%',
-        }}
-      />
+      <div className="pdf-context" >
+        {
+          pdf ? (
+            <Viewer
+              pdf={pdf}
+              scale={scale}
+            />
+          ) : (
+            <div>please select one or more row to preview</div>
+          )
+        }
+      </div>
     );
   }
 }
-const mapStateToProps = state => ({
-});
-const mapDispatchToProps = (dispatch, ownProps) => ({
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(PdfPreview);
+export default PdfPreview;

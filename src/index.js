@@ -1,12 +1,14 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
+import { EventEmitter } from 'fbemitter';
 
 import Routes from './routes';
 
 import configureStore from './store/configureStore';
 
-import './index.css';
+const emitter = new EventEmitter();
+window.emitter = emitter;
 
 const store = configureStore();
 

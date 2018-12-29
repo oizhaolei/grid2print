@@ -27,6 +27,7 @@ const render = data => data.map(item => ({
       }],
     ],
   },
+  pageOrientation: 'portrait',
   pageBreak: 'before',
 }));
 
@@ -37,7 +38,7 @@ export default (rows) => {
   const formattedData = render(rows);
 
   const documentDefinition = {
-    pageOrientation: 'landscape',
+    pageOrientation: 'portrait',
     pageSize: 'A5',
     content: formattedData,
   };
