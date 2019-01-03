@@ -1,12 +1,11 @@
 {
   "name": "Grid2Print",
   "version": "0.1.0",
-  "private": true,
-  "main": "src/electron-starter.js",
   "homepage": "./",
   "dependencies": {
     "ag-grid-community": "^19.1.4",
     "ag-grid-react": "^19.1.2",
+    "antd": "^3.11.6",
     "antd-mobile": "^2.1.10",
     "dayjs": "^1.7.7",
     "fbemitter": "^2.1.1",
@@ -31,13 +30,10 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
-    "eject": "react-scripts eject",
-    "electron": "electron ."
+    "eject": "react-scripts eject"
   },
   "devDependencies": {
     "babel-plugin-import": "^1.7.0",
-    "electron": "^4.0.0",
-    "electron-packager": "^13.0.1",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.12.0",

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Button, Radio } from 'antd';
 
 import makePdfData from './MakePdfData';
 
@@ -18,35 +19,37 @@ class Header extends Component {
   };
   handleDownload = () => {
     const start = new Date().getTime();
-    makePdfData(this.props.rows).download('output.pdf');
-    console.log('cost ', new Date().getTime() - start);
-  };
-  handlePrint = () => {
-    const start = new Date().getTime();
-    makePdfData(this.props.rows).print();
-    console.log('cost ', new Date().getTime() - start);
+    makePdfData(this.props.rows).download('Untitled.pdf');
+    console.log(this.props.rows.length, 'cost', new Date().getTime() - start, 'ms');
   };
 
   render() {
     return (
       <div
         style={{
-          height: '99%',
           width: '100%',
         }}
       >
-        <button
-           onClick={this.handleImport}
-        >Import</button>
-        <button
-           onClick={this.handleExport}
-       >Export</button>
-        <button
+        <Button.Group>
+          <Button
+            type="primary"
+            icon="upload"
+            onClick={this.handleImport}
+          >Import CSV</Button>
+          <Button
+            type="primary"
+            icon="download"
+            onClick={this.handleExport}
+          >Export CSV</Button>
+        </Button.Group>
+        <Button
+          type="primary"
+          icon="file-pdf"
           disabled={this.props.rows.length === 0}
           onClick={this.handleDownload}
         >
-          Download
-        </button>
+          Download PDF
+        </Button>
       </div>
     );
   }

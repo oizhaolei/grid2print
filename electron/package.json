@@ -1,0 +1,17 @@
+{
+  "name": "Grid2Print",
+  "version": "0.1.0",
+  "private": true,
+  "main": "electron-starter.js",
+  "homepage": "./",
+  "dependencies": {},
+  "scripts": {
+    "package:mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --out=out --icon=assets/app-icon/mac/app.icns --osx-sign.identity='Developer ID Application: GitHub' --prune=true --extend-info=assets/mac/info.plist",
+    "package:win": "electron-packager . --overwrite --platform=win32 --prune=true --arch=ia32 --out=out --icon=assets/app-icon/win/app.ico",
+    "electron": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^4.0.0",
+    "electron-packager": "^13.0.1"
+  }
+}

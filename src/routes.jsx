@@ -10,6 +10,7 @@ import PdfPreview from './PdfPreview';
 import {
   selectedRows,
 } from './actions/local';
+import 'antd/dist/antd.css';
 
 class Routes extends Component {
   componentDidMount() {

@@ -52,8 +52,8 @@ ipcMain.on('ipc-export-file-dialog', (event, arg) => {
 function createWindow() {
     // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1400,
+    height: 1000,
     webPreferences: {
       nodeIntegration: false,
       preload: __dirname + '/preload.js',
@@ -61,16 +61,16 @@ function createWindow() {
   });
 
     // and load the index.html of the app.
-    // const startUrl = process.env.ELECTRON_START_URL || url.format({
-    //             pathname: path.join(__dirname, '/../build/index.html'),
-    //             protocol: 'file:',
-    //             slashes: true
-    //         });
-    // mainWindow.loadURL(startUrl);
-     mainWindow.loadURL('http://localhost:3000');
+    const startUrl = process.env.ELECTRON_START_URL || url.format({
+                pathname: path.join(__dirname, '/build/index.html'),
+                protocol: 'file:',
+                slashes: true
+            });
+    mainWindow.loadURL(startUrl);
+    // mainWindow.loadURL('http://localhost:3000');
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function () {
