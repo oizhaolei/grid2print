@@ -4,17 +4,28 @@ import { connect } from 'react-redux';
 import makePdfData from './MakePdfData';
 
 class Header extends Component {
-
-  handlePrint = () => {
-    const start = new Date().getTime();
-    makePdfData(this.props.rows).print();
-    console.log('cost ', new Date().getTime() - start);
-  }
+  handleImport = () => {
+    window.ipcRenderer.send('ipc-import-file-dialog');
+    window.ipcRenderer.on('ipc-import-selected-file', (event, path) => {
+      console.log('ipc-import-selected-file path', path);
+    });
+  };
+  handleExport = () => {
+    window.ipcRenderer.send('ipc-export-file-dialog');
+    window.ipcRenderer.on('ipc-export-selected-file', (event, path) => {
+      console.log('ipc-export-selected-file path', path);
+    });
+  };
   handleDownload = () => {
     const start = new Date().getTime();
     makePdfData(this.props.rows).download('output.pdf');
     console.log('cost ', new Date().getTime() - start);
-  }
+  };
+  handlePrint = () => {
+    const start = new Date().getTime();
+    makePdfData(this.props.rows).print();
+    console.log('cost ', new Date().getTime() - start);
+  };
 
   render() {
     return (
@@ -24,22 +35,18 @@ class Header extends Component {
           width: '100%',
         }}
       >
-        <button>-Import-</button>
-        <button>-Export-</button>
+        <button
+           onClick={this.handleImport}
+        >Import</button>
+        <button
+           onClick={this.handleExport}
+       >Export</button>
         <button
           disabled={this.props.rows.length === 0}
           onClick={this.handleDownload}
         >
           Download
         </button>
-        <button
-          disabled={this.props.rows.length === 0}
-          onClick={this.handlePrint}
-        >
-          Print
-        </button>
-        <button>-Prev Page-</button>
-        <button>-Next Page-</button>
       </div>
     );
   }

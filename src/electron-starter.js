@@ -3,6 +3,8 @@ const electron = require('electron');
 const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
+const ipcMain = electron.ipcMain;
+const dialog = electron.dialog;
 
 const path = require('path');
 const url = require('url');
@@ -11,18 +13,61 @@ const url = require('url');
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
+ipcMain.on('asynchronous-message', (event, arg) => {
+  console.log(arg); // prints "ping"
+  event.sender.send('asynchronous-reply', 'pong');
+});
+ipcMain.on('ipc-export', (event, arg) => {
+  console.log('ipc-export', arg);
+});
+
+ipcMain.on('synchronous-message', (event, arg) => {
+  console.log(arg); // prints "ping"
+  event.returnValue = 'pong';
+});
+
+ipcMain.on('ipc-import-file-dialog', (event, arg) => {
+  dialog.showOpenDialog({
+    properties: ['openFile'],
+  }, (files) => {
+    if (files) {
+      console.log('files', files);
+      event.sender.send('ipc-import-selected-file', files);
+    }
+  });
+});
+
+ipcMain.on('ipc-export-file-dialog', (event, arg) => {
+  dialog.showSaveDialog({
+    title: 'Save PDF',
+  }, (filename) => {
+    if (filename) {
+      console.log('filename', filename);
+      event.sender.send('ipc-export-selected-file', filename);
+    }
+  });
+});
+
+
 function createWindow() {
     // Create the browser window.
-    mainWindow = new BrowserWindow({width: 800, height: 600});
+  mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: false,
+      preload: __dirname + '/preload.js',
+    },
+  });
 
     // and load the index.html of the app.
-    const startUrl = process.env.ELECTRON_START_URL || url.format({
-                pathname: path.join(__dirname, '/../build/index.html'),
-                protocol: 'file:',
-                slashes: true
-            });
-    mainWindow.loadURL(startUrl);
-    // mainWindow.loadURL('http://localhost:3000');
+    // const startUrl = process.env.ELECTRON_START_URL || url.format({
+    //             pathname: path.join(__dirname, '/../build/index.html'),
+    //             protocol: 'file:',
+    //             slashes: true
+    //         });
+    // mainWindow.loadURL(startUrl);
+     mainWindow.loadURL('http://localhost:3000');
 
     // Open the DevTools.
     mainWindow.webContents.openDevTools();

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import SplitPane from 'react-split-pane';
+import isElectron from 'is-electron';
 
 import Header from './Header';
 import DataGrid from './DataGrid';
@@ -12,6 +13,14 @@ import {
 
 class Routes extends Component {
   componentDidMount() {
+    if (isElectron()) {
+      console.log(window.ipcRenderer.sendSync('synchronous-message', 'ping')) // prints "pong"
+
+      window.ipcRenderer.on('asynchronous-reply', (event, arg) => {
+        console.log(arg) // prints "pong"
+      })
+      window.ipcRenderer.send('asynchronous-message', 'ping')
+    }
   }
 
   handleSelectedRows = (rows) => {
@@ -27,17 +36,9 @@ class Routes extends Component {
         <Header
           rows={this.props.rows}
         />
-        <SplitPane
-          defaultSize="50%"
-          allowResize
-        >
-          <DataGrid
-            handleSelectedRows={this.handleSelectedRows}
-          />
-          <PdfPreview
-            rows={this.props.rows}
-          />
-        </SplitPane>
+        <DataGrid
+          handleSelectedRows={this.handleSelectedRows}
+        />
       </SplitPane>
     );
   }

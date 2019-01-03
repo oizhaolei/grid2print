@@ -51,7 +51,7 @@ class DataGrid extends Component {
         className="ag-theme-balham"
         style={{
           height: '99%',
-          width: '100%',
+          width: '99%',
         }}
       >
         <AgGridReact
